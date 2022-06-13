@@ -1,6 +1,5 @@
 import os
-from webbrowser import get
-from exemple.db.connect import get_connection
+from application.db.connect import get_connection
 from flask import Flask, render_template
 from datetime import timedelta
 
