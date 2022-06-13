@@ -44,7 +44,7 @@ docker-compose up --build
 ```
 をターミナルで実行することでwebサーバーとDBサーバーが自動的に立ち上がります。
 
-[localhost:5001](localhost:5001)が接続先URLです。（環境によって適度にポートなどを変更してください。)
+[localhost:8080](http://localhost:8080)が接続先URLです。（環境によって適度にポートなどを変更してください。)
 
 ## 実行フォルダの指定について
 
@@ -57,7 +57,7 @@ flask-docker
 ┣ database/ 
 ┃   └ dockerfile 
 ┃         - dbの設定に使うdockerfile
-┣ exemple/      
+┣ application/      
 ┃   └ app.py     
 ┃         - デフォルトで読み込まれるpythonファイル
 ┣　initdb.d/     
