@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>flask_docker</title>
+</head>
+<body>
+   <h1>Hello World!</h1>
+
+   <p>User Table</p>
+   <table border="1">
+      <thead>
+          <tr>
+              <th>mail</th>
+              <th>name</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for user in users %}
+          <tr>
+              <td>{{ user[1] }}</td>
+              <td>{{ user[2] }}</td>
+          </tr>
+          {% else %}
+              <td>No User...</td>
+          {% endfor %}
+      </tbody>
+  </table>
+</body>
+</html>
