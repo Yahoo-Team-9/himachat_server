@@ -15,6 +15,7 @@ app.config.update(
 app.config['JSON_AS_ASCII'] = False
 app.secret_key = os.environ["SECRET_KEY"]
 app.permanent_session_lifetime = timedelta(hours=12)
+socketio = SocketIO(app, logger=True, engineio_logger=True, cors_allowed_origins='*')
 
 @app.route("/")
 def index():
@@ -122,3 +123,20 @@ def edit_profile():
     cur.close()
     conn.close()
     return jsonify(res="ok") 
+@socketio.on("join")
+def on_join(data):
+    username = data["username"]
+    room = data["room"]
+    join_room(room)
+    send(username + " has entered the room.", to=room)
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    send(username + ' has left the room.', to=room)
+
+@socketio.on("message")
+def handle_message(room, message):
+    send(message, to=room)
