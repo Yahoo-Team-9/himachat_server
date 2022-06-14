@@ -32,19 +32,15 @@ def get_users():
     return users
 
 @socketio.on("join")
-def on_join(data):
-    username = data["username"]
-    room = data["room"]
-    join_room(room)
-    send(username + " has entered the room.", to=room)
+def on_join(username, chatRoom):
+    join_room(chatRoom)
+    send(username + " has entered the room.", to=chatRoom)
 
 @socketio.on('leave')
-def on_leave(data):
-    username = data['username']
-    room = data['room']
-    leave_room(room)
-    send(username + ' has left the room.', to=room)
+def on_leave(username, chatRoom):
+    leave_room(chatRoom)
+    send(username + ' has left the room.', to=chatRoom)
 
 @socketio.on("message")
-def handle_message(room, message):
-    send(message, to=room)
+def handle_message(chatRoom, message):
+    emit("message", message, to=chatRoom)
