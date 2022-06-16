@@ -1,6 +1,6 @@
 import os
 from application.db.connect import get_connection
-from flask import Flask, render_template
+from flask import Flask, render_template, request, Response
 from datetime import timedelta
 
 app = Flask(__name__)
@@ -28,3 +28,29 @@ def get_users():
     cur.close()
     
     return users
+
+@app.route("/create_group", methods=["POST"])
+def create_group():
+    primary_user_id = 1
+    # primary_user_id = request.form["primary_user_id"]
+
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = f'insert into user_groups(group_owner) values({primary_user_id})'
+    cur.execute(sql)
+    conn.commit()
+
+    cur.execute('select last_insert_id();')
+    group_id = cur.fetchone()
+
+    
+    added_members = [2, 3, 4]
+    # added_members = request.form["added_members"]
+    for member in [primary_user_id] + added_members:
+        sql = f'insert into group_users(group_id, primary_user_id) values({group_id[0]}, {member})'
+        cur.execute(sql)
+        conn.commit()
+
+
+    cur.close()
+    return Response(status=200)
