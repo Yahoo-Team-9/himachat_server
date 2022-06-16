@@ -13,7 +13,6 @@ RUN pip install --upgrade setuptools
 
 RUN python -m pip install flask
 RUN python -m pip install mysql
-RUN python -m pip install mysql
 RUN python -m pip install flask-socketio
 ENV SECRET_KEY `cat /dev/urandom | base64 | fold -w 32 | head -n 1`
 
