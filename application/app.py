@@ -29,6 +29,19 @@ def get_users():
     
     return users
 
+@app.route("/get_group", methods=["GET"])
+def get_group():
+    group_id = 37
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = f'select primary_user_id from group_users where group_id={group_id}'
+    cur.execute(sql)
+    members = cur.fetchall()
+    cur.close()
+
+    return {"members": members}
+    
+
 @app.route("/create_group", methods=["POST"])
 def create_group():
     primary_user_id = 1
