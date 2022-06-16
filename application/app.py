@@ -1,7 +1,8 @@
 import os
 from application.db.connect import get_connection
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, jsonify
 from datetime import timedelta
+import ast
 
 app = Flask(__name__)
 
@@ -31,7 +32,8 @@ def get_users():
 
 @app.route("/get_group", methods=["GET"])
 def get_group():
-    group_id = 37
+    # group_id = 37
+    group_id = request.json["group_id"]
     conn = get_connection()
     cur = conn.cursor()
     sql = f'select primary_user_id from group_users where group_id={group_id}'
@@ -41,11 +43,10 @@ def get_group():
 
     return {"members": members}
     
-
 @app.route("/create_group", methods=["POST"])
 def create_group():
-    primary_user_id = 1
-    # primary_user_id = request.form["primary_user_id"]
+    # primary_user_id = 1
+    primary_user_id = request.json["primary_user_id"]
 
     conn = get_connection()
     cur = conn.cursor()
@@ -57,8 +58,8 @@ def create_group():
     group_id = cur.fetchone()
 
     
-    added_members = [2, 3, 4]
-    # added_members = request.form["added_members"]
+    # added_members = [2, 3, 4]
+    added_members = ast.literal_eval(request.json["added_members"]) # "[2,3]" -> [2,3]
     for member in [primary_user_id] + added_members:
         sql = f'insert into group_users(group_id, primary_user_id) values({group_id[0]}, {member})'
         cur.execute(sql)
@@ -66,4 +67,4 @@ def create_group():
 
 
     cur.close()
-    return Response(status=200)
+    return jsonify(res="ok")
