@@ -11,9 +11,15 @@ CREATE TABLE users(
 	updated_at DATETIME default current_timestamp on update current_timestamp,
 	delete_flg BOOLEAN DEFAULT 0
 );
+
+
+--グループの情報 (group_typeは2人か３人以上か。)
+-- group_id=1
+-- group_id=2, 
+
 CREATE TABLE user_groups(
 	group_id INT(12) PRIMARY KEY AUTO_INCREMENT,
-	group_type INT(1),
+	-- group_type INT(1),
 	group_owner INT(9),
 	created_at DATETIME default current_timestamp,
 	updated_at DATETIME default current_timestamp on update current_timestamp,
@@ -22,6 +28,10 @@ CREATE TABLE user_groups(
 	REFERENCES users(primary_user_id)
 );
 
+--ユーザがどのグループに属しているか
+-- group_id=1, primary_user_id=1
+-- group_id=1, primary_user_id=2
+-- group_id=1, primary_user_id=3
 CREATE TABLE group_users(
 	group_user_id INT(12) PRIMARY KEY AUTO_INCREMENT,
 	group_id INT(12),
