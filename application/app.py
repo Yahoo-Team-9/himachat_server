@@ -134,5 +134,25 @@ def on_leave(username, chatRoom):
     send(username + ' has left the room.', to=chatRoom)
 
 @socketio.on("message")
-def handle_message(chatRoom, message):
+def handle_message(chatRoom, primary_user_id, message):
+
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = f'insert into chats(group_id, send_user, message) values({chatRoom}, {primary_user_id}, {message})'
+    cur.execute(sql)
+    conn.commit()
+
     emit("message", message, to=chatRoom)
+
+
+@app.route("/get_group_messages", methods=["GET"])
+def get_group_messages():
+    group_id = request.json["group_id"]
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = f'select send_user, created_at, message from chats where group_id={group_id}'
+    cur.execute(sql)
+    message_history = cur.fetchall()
+    cur.close()
+
+    return {"message_history": message_history}
