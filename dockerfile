@@ -2,7 +2,6 @@ FROM python:3
 WORKDIR /app
 
 RUN apt-get update
-
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP:ja
 ENV LC_ALL ja_JP.UTF-8
