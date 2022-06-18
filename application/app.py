@@ -2,6 +2,7 @@ import os
 from application.db.connect import get_connection
 from flask import Flask, render_template, request, jsonify
 from datetime import timedelta
+from flask_socketio import SocketIO, emit, send, join_room, leave_room
 import ast
 
 app = Flask(__name__)
@@ -123,26 +124,30 @@ def edit_profile():
     cur.close()
     conn.close()
     return jsonify(res="ok") 
+
 @socketio.on("join")
 def on_join(username, chatRoom):
     join_room(chatRoom)
-    send(username + " has entered the room.", to=chatRoom)
+    print(f"{username} has connected")
 
 @socketio.on('leave')
 def on_leave(username, chatRoom):
     leave_room(chatRoom)
-    send(username + ' has left the room.', to=chatRoom)
+    print(f"{username} has left")
 
 @socketio.on("message")
 def handle_message(chatRoom, primary_user_id, message):
 
-    conn = get_connection()
-    cur = conn.cursor()
-    sql = f'insert into chats(group_id, send_user, message) values({chatRoom}, {primary_user_id}, {message})'
-    cur.execute(sql)
-    conn.commit()
+    insert_message(chatRoom, primary_user_id, message)
 
     emit("message", message, to=chatRoom)
+
+def insert_message(chatRoom, primary_user_id, message):
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = f'insert into chats(group_id, send_user, message) values({chatRoom}, {primary_user_id}, "{message}")'
+    cur.execute(sql)
+    conn.commit()
 
 
 @app.route("/get_group_messages", methods=["GET"])
