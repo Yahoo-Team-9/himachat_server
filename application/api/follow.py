@@ -8,7 +8,7 @@ follow = Blueprint('home', __name__, url_prefix='/api/follow')
 @follow.route('/get_follow_list',methods=["POST"])
 def get_follow_list():
     """
-    自分がフォローしているユーザーを取得するAPI
+    user_idがフォローしているユーザーを取得するAPI
     :param: json でuser_idを引き渡してください
     :return: json
     """
@@ -23,7 +23,7 @@ def get_follow_list():
 @follow.route('/get_follower_list',methods=["POST"])
 def get_follower_list():
     """
-    自分をフォローしているユーザーを取得するAPI
+    user_idをフォローしているユーザーを取得するAPI
     :param: json でuser_idを引き渡してください
     :return: json
     """
@@ -32,19 +32,21 @@ def get_follower_list():
 
 @follow.route('/follow', methods=["POST"])
 def set_follow():
-    #if session not in session
-    follow_id = request.json['user_id']
-    res = set_follow_db(session['user'], follow_id)
-    if  res == 0:
-        return jsonify({"status": "OK"}), 200
-    elif res == 1:
-        return jsonify({"status":"already follow user"}), 200
+    if 'user' not in session:
+        follow_id = request.json['user_id']
+        res = set_follow_db(session['user'], follow_id)
+        if  res == 0:
+            return jsonify({"status": "OK"}), 200
+        elif res == 1:
+            return jsonify({"status":"already follow user"}), 200
+    else: return  jsonify({"status": "not session. pls Login your browser"}), 413
 
 @follow.route('/unfollow', methods=["POST"])
 def un_follow():
-    #if session not in session
-    follow_id = request.json['user_id']
-    if un_follow_db(session['user'],follow_id):
-        return jsonify({"status": "OK"}), 200
-    else:
-        return  jsonify({"status":"error"}),413
+    if 'user' not in session:
+        follow_id = request.json['user_id']
+        if un_follow_db(session['user'],follow_id):
+            return jsonify({"status": "OK"}), 200
+        else:
+            return  jsonify({"status":"error"}),413
+    else: return  jsonify({"status": "not session. pls Login your browser"}), 413
