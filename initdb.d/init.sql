@@ -11,9 +11,9 @@ CREATE TABLE users(
 	updated_at DATETIME default current_timestamp on update current_timestamp,
 	delete_flg BOOLEAN DEFAULT 0
 );
+
 CREATE TABLE user_groups(
 	group_id INT(12) PRIMARY KEY AUTO_INCREMENT,
-	group_type INT(1),
 	group_owner INT(9),
 	created_at DATETIME default current_timestamp,
 	updated_at DATETIME default current_timestamp on update current_timestamp,
