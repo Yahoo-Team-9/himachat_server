@@ -1,26 +1,50 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
 
-from application.db.follow import set_follow_db
-
+from application.db.follow import set_follow_db, un_follow_db, get_follow_list_db, get_follower_list_db
+import  json
 follow = Blueprint('home', __name__, url_prefix='/api/follow')
 
 
-@follow.route('/get_follow_list')
+@follow.route('/get_follow_list',methods=["POST"])
 def get_follow_list():
-    return  'a'
+    """
+    自分がフォローしているユーザーを取得するAPI
+    :param: json でuser_idを引き渡してください
+    :return: json
+    """
+    follow_id = request.json['user_id']
+    user_list = get_follow_list_db(follow_id)
+    if user_list:
+        return  jsonify(user_list),200
+    else:
+        return  jsonify([]),200
 
 
-@follow.route('/get_follower_list')
+@follow.route('/get_follower_list',methods=["POST"])
 def get_follower_list():
-    return  'a'
+    """
+    自分をフォローしているユーザーを取得するAPI
+    :param: json でuser_idを引き渡してください
+    :return: json
+    """
+    follower_id = request.json['user_id']
+    return jsonify(get_follower_list_db(follower_id)), 200
 
 @follow.route('/follow', methods=["POST"])
 def set_follow():
     #if session not in session
-    follow_id = request.form.get('user_id')
-    if set_follow_db(session['user'],follow_id):
+    follow_id = request.json['user_id']
+    res = set_follow_db(session['user'], follow_id)
+    if  res == 0:
+        return jsonify({"status": "OK"}), 200
+    elif res == 1:
+        return jsonify({"status":"already follow user"}), 200
+
+@follow.route('/unfollow', methods=["POST"])
+def un_follow():
+    #if session not in session
+    follow_id = request.json['user_id']
+    if un_follow_db(session['user'],follow_id):
         return jsonify({"status": "OK"}), 200
     else:
-        return  jsonify({"status","not followed"}),413
-
-
+        return  jsonify({"status":"error"}),413
