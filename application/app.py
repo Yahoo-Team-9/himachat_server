@@ -1,28 +1,9 @@
-import os
-
-from application.api.follow import follow
-from application.api.group import group
 from application.db.connect import get_connection
 from flask import Flask, render_template, request, jsonify, session
-from datetime import timedelta
-from flask_socketio import SocketIO, emit, send, join_room, leave_room
+from application import create_app
 
 
-app = Flask(__name__)
-
-# sessionの設定
-app.config.update(
-    SESSION_COOKIE_SAMESITE='Lax',
-)
-
-app.config['JSON_AS_ASCII'] = False
-app.secret_key = os.environ["SECRET_KEY"]
-app.permanent_session_lifetime = timedelta(hours=12)
-socketio = SocketIO(app, logger=True, engineio_logger=True, cors_allowed_origins='*')
-
-app.register_blueprint(follow)
-app.register_blueprint(group)
-
+app = create_app(debug=True)
 
 @app.route("/")
 def index():
@@ -79,43 +60,3 @@ def edit_profile():
     cur.close()
     conn.close()
     return jsonify(res="ok")
-
-
-@socketio.on("join")
-def on_join(username, chatRoom):
-    join_room(chatRoom)
-    print(f"{username} has connected")
-
-
-@socketio.on('leave')
-def on_leave(username, chatRoom):
-    leave_room(chatRoom)
-    print(f"{username} has left")
-
-
-@socketio.on("message")
-def handle_message(chatRoom, primary_user_id, message):
-    insert_message(chatRoom, primary_user_id, message)
-
-    emit("message", message, to=chatRoom)
-
-
-def insert_message(chatRoom, primary_user_id, message):
-    conn = get_connection()
-    cur = conn.cursor()
-    sql = f'insert into chats(group_id, send_user, message) values({chatRoom}, {primary_user_id}, "{message}")'
-    cur.execute(sql)
-    conn.commit()
-
-
-@app.route("/get_group_messages", methods=["GET"])
-def get_group_messages():
-    group_id = request.json["group_id"]
-    conn = get_connection()
-    cur = conn.cursor()
-    sql = f'select send_user, created_at, message from chats where group_id={group_id}'
-    cur.execute(sql)
-    message_history = cur.fetchall()
-    cur.close()
-
-    return {"message_history": message_history}
