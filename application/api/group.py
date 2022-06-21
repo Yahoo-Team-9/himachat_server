@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
 
-from application.db.group import create_group_db, add_member_db, get_group_members_db
+from application.db.group import create_group_db, add_member_db, get_group_members_db, get_group_list_db
 import json
 
 group = Blueprint('group', __name__, url_prefix='/api/group')
@@ -38,3 +38,10 @@ def update_group():
     add_member_db(group_id, added_members)
 
     return jsonify(res="ok")
+
+# ユーザが所属しているグループの一覧を返却 (=チャット一覧の返却)
+@group.route("/get_group_list", methods=["GET"])
+def get_group_list():
+    if 'user' in session:
+        group_list = get_group_list_db(session['user'])
+        return jsonify({"group_list": group_list})
