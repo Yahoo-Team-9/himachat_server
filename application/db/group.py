@@ -44,3 +44,13 @@ def get_group_list_db(primary_user_id):
     cur.close()
 
     return group_list
+
+def get_group_db(primary_user_id):
+    conn = get_connection()
+    cur = conn.cursor(MySQLdb.cursors.DictCursor)
+    sql = 'select group_id, group_owner, created_at from user_groups where group_owner = %s'
+    cur.execute(sql, (primary_user_id,))
+    group_id = cur.fetchall()
+    cur.close()
+
+    return group_id

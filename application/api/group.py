@@ -1,7 +1,8 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
 
-from application.db.group import create_group_db, add_member_db, get_group_members_db, get_group_list_db
-import json
+from application.db.group import create_group_db, add_member_db, get_group_members_db, get_group_list_db, get_group_db
+from application.db.follow import get_follow_list_db
+
 
 group = Blueprint('group', __name__, url_prefix='/api/group')
 
@@ -45,3 +46,13 @@ def get_group_list():
     if 'user' in session:
         group_list = get_group_list_db(session['user'])
         return jsonify({"group_list": group_list})
+
+ # ユーザのフォローが作成したグループの一覧を取得 (Top画面(Follow)にて飛び入り参加可能なグループを返却する用)
+@group.route("/get_follow_group_list", methods=["GET"])
+def get_follow_group_list():
+    if 'user' in session:
+        follow_list = get_follow_list_db(session['user'])
+        follow_group_list = []
+        for follow in follow_list:
+            follow_group_list.extend(get_group_db(follow["follower_user"]))
+        return jsonify({"follow_group_list": follow_group_list})
