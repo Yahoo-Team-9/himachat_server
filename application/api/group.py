@@ -2,7 +2,6 @@ from flask import Flask, Blueprint, render_template, request, redirect, jsonify,
 
 from application.db.group import create_group_db, add_member_db, get_group_members_db
 import json
-import ast
 
 group = Blueprint('group', __name__, url_prefix='/api/group')
 
@@ -25,7 +24,7 @@ def create_group():
     group_id = create_group_db(primary_user_id)
 
     # added_members = [2, 3, 4]
-    added_members = ast.literal_eval(request.json["added_members"])  # "[2,3]" -> [2,3]
+    added_members = request.json["added_members"]
     add_member_db(group_id[0], [primary_user_id] + added_members)
 
     return jsonify(res="ok")
@@ -35,7 +34,7 @@ def create_group():
 @group.route("/update_group", methods=["POST"])
 def update_group():
     group_id = request.json["group_id"]
-    added_members = ast.literal_eval(request.json["added_members"])  # "[2,3]" -> [2,3]
+    added_members = request.json["added_members"]
     add_member_db(group_id, added_members)
 
     return jsonify(res="ok")
