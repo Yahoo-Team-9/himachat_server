@@ -23,9 +23,11 @@ def create_app(debug=False):
     from application.api.follow import follow
     from application.api.group import group
     from application.api.chat import chat
+    from application.api.user import user
     app.register_blueprint(follow)
     app.register_blueprint(group)
     app.register_blueprint(chat)
+    app.register_blueprint(user)
 
     socketio.init_app(app)
 
