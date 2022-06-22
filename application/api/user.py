@@ -1,6 +1,5 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
 from application.db.user import get_profile_db, edit_profile_db
-#from application import create_app
 
 user = Blueprint('user', __name__, url_prefix='/api/user')
 
@@ -19,7 +18,7 @@ def get_profile():
 
 
 # プロフィール編集（画像以外）
-@user.route("/edit_profile", methods=["PUT"])
+@user.route("/edit_profile", methods=["POST"])
 def edit_profile():
     """
     primary_user_idのユーザー情報を編集するAPI
