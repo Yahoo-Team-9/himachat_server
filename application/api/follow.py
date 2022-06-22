@@ -34,7 +34,7 @@ def get_follower_list():
 
 @follow.route('/follow', methods=["POST"])
 def set_follow():
-    if 'user' not in session:
+    if 'user' in session:
         follow_id = request.json['primary_user_id']
         res = set_follow_db(session['user'], follow_id)
         if res == 0:
@@ -47,7 +47,7 @@ def set_follow():
 
 @follow.route('/unfollow', methods=["POST"])
 def un_follow():
-    if 'user' not in session:
+    if 'user' in session:
         follow_id = request.json['primary_user_id']
         if un_follow_db(session['user'], follow_id):
             return jsonify({"status": "OK"}), 200
