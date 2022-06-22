@@ -47,7 +47,7 @@ def get_follow_list_db(user_id: str) ->list :
     """
     conn = get_connection()
     cur = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = '''select follows.follower_user, users.bio, users.user_id,  users.user_image_pass from follows inner join 
+    sql = '''select follows.follower_user, users.bio, users.user_id, users.login_at, users.user_image_pass from follows inner join 
           users users on users.primary_user_id = follows.follower_user where follows.follow_user = %s'''
     cur.execute(sql,(user_id,))
     user_list = cur.fetchall()
@@ -62,7 +62,7 @@ def get_follower_list_db(user_id: str) ->list :
     """
     conn = get_connection()
     cur = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = '''select follows.follow_user, users.bio, users.user_id,  users.user_image_pass from follows inner join 
+    sql = '''select follows.follow_user, users.bio, users.user_id, users.login_at, users.user_image_pass from follows inner join 
           users users on users.primary_user_id = follows.follow_user where follows.follower_user = %s'''
     cur.execute(sql,(user_id,))
     user_list = cur.fetchall()
