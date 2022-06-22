@@ -12,8 +12,8 @@ def get_profile():
     :param: json でprimary_user_idを引き渡してください
     :return: json
     """
-    primary_user_id = 1
-    # primary_user_id = request.json["primary_user_id"]
+    # primary_user_id = 1
+    primary_user_id = request.json["primary_user_id"]
     user_profiles = get_profile_db(primary_user_id)
     return jsonify({"user_profiles": user_profiles})
 
@@ -23,13 +23,13 @@ def get_profile():
 def edit_profile():
     """
     primary_user_idのユーザー情報を編集するAPI
-    :param: json でprimary_user_idとedited_profile({column:value, ...})引き渡してください
+    :param: json でprimary_user_idとedited_profile({"user_id": ,"user_name": ,"bio": })引き渡してください
     :return: json
     """
-    primary_user_id = 1
-    # primary_user_id = request.json["primary_user_id"]
+    # primary_user_id = 1
+    primary_user_id = request.json["primary_user_id"]
     
-    edited_profile = {"user_id":"Shishamo_big_Love", "user_name":"柳葉魚"}
-    # edited_profile = request.json["edited_profile"]
+    # edited_profile = {"user_id":"Shishamo_big_Love", "user_name":"柳葉魚", "bio":"こんばんは！!暇なときはゲームしています！気軽に誘ってね♡"}
+    edited_profile = request.json["edited_profile"]
     edit_profile_db(primary_user_id, edited_profile)
     return jsonify(res="ok")
