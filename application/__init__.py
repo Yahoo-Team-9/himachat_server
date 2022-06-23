@@ -38,7 +38,7 @@ def create_app(debug=False):
     app.debug = debug
 
     app.config['JSON_AS_ASCII'] = False
-    app.secret_key = os.environ["SECRET_KEY"]
+   # app.secret_key = os.environ["SECRET_KEY"]
     app.permanent_session_lifetime = timedelta(hours=12)
 
     from application.api.follow import follow
