@@ -1,9 +1,9 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
+from flask import Flask, Blueprint, render_template, request, redirect, jsonify,session
 
 from application.db.follow import set_follow_db, un_follow_db, get_follow_list_db, get_follower_list_db
 import json
 
-follow = Blueprint('home', __name__, url_prefix='/api/follow')
+follow = Blueprint('follow', __name__, url_prefix='/api/follow')
 
 
 @follow.route('/get_follow_list', methods=["POST"])
@@ -34,7 +34,8 @@ def get_follower_list():
 
 @follow.route('/follow', methods=["POST"])
 def set_follow():
-    if 'user' in session:
+
+    if 'user'  in session:
         follow_id = request.json['primary_user_id']
         res = set_follow_db(session['user'], follow_id)
         if res == 0:
@@ -47,7 +48,8 @@ def set_follow():
 
 @follow.route('/unfollow', methods=["POST"])
 def un_follow():
-    if 'user' in session:
+
+    if 'user'  in session:
         follow_id = request.json['primary_user_id']
         if un_follow_db(session['user'], follow_id):
             return jsonify({"status": "OK"}), 200
