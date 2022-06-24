@@ -50,16 +50,17 @@ CREATE TABLE chats(
 	REFERENCES user_groups(group_id)
 );
 
-CREATE TABLE follows(
-	follow_id INT(12) PRIMARY KEY AUTO_INCREMENT,
-	follow_user INT(9),
-	follower_user INT(9),
+CREATE TABLE friends(
+	friend_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+	primary_user_id INT(9),
+	friend INT(9),
+	approval BOOLEAN DEFAULT 0,
 	created_at  DATETIME default current_timestamp,
 	updated_at  DATETIME default current_timestamp on update current_timestamp,
 	delete_flg BOOLEAN DEFAULT 0,
-	FOREIGN KEY(follow_user)
+	FOREIGN KEY(primary_user_id)
 	REFERENCES users(primary_user_id),
-	FOREIGN KEY(follower_user)
+	FOREIGN KEY(friend)
 	REFERENCES users(primary_user_id)
 );
 
