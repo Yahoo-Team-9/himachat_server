@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
 
-from application.db.custom import create_custom_db, set_custom_members_db, get_custom_list_db, get_custom_members_db
+from application.db.custom import create_custom_db, set_custom_members_db, get_custom_list_db, get_custom_members_db, set_custom_use_flg_db
 
 custom = Blueprint('custom', __name__, url_prefix='/api/custom')
 
@@ -45,3 +45,14 @@ def get_custom_list():
     if 'user' in session:
         custom_list = get_custom_list_db(session['user'])
         return jsonify({"custom_list": custom_list})
+
+#どのカスタム設定を利用するかを設定
+@custom.route("/set_custom", methods=["POST"])
+def set_custom():
+    if 'user' in session:
+        primary_user_id = session['user']
+        custom_id = request.json["custom_id"]
+        set_custom_use_flg_db(custom_id, primary_user_id)
+        return jsonify(res="ok")
+    else:
+        return {"error": "please login"}

@@ -46,3 +46,25 @@ def get_custom_list_db(primary_user_id):
     cur.close()
 
     return custom_list
+
+def set_custom_use_flg_db(custom_id, primary_user_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = 'update customs set use_flg = 0 where primary_user_id = %s and use_flg = 1'
+    cur.execute(sql, (primary_user_id,))
+    conn.commit()
+
+    sql = 'update customs set use_flg = 1 where custom_id = %s'
+    cur.execute(sql, (custom_id,))
+    conn.commit()
+    cur.close()
+
+def get_use_custom_db(primary_user_id):
+    conn = get_connection()
+    cur = conn.cursor(MySQLdb.cursors.DictCursor)
+    sql = 'select custom_id from customs where primary_user_id = %s and use_flg = 1'
+    cur.execute(sql, (primary_user_id,))
+    custom_id = cur.fetchall()
+    cur.close()
+
+    return custom_id
