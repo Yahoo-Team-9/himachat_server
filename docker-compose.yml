@@ -22,7 +22,6 @@ services:
     
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
-      - ../data/mysql/data:/var/lib/mysql
       - ./data/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
   redis:
     image: "redis:latest"
