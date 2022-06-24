@@ -16,15 +16,18 @@ def get_custom_members():
 # カスタム作成&指定したメンバーを追加
 @custom.route("/create_custom", methods=["POST"])
 def create_group():
-    primary_user_id = request.json["primary_user_id"]
+    if 'user' in session:
+        primary_user_id = session['user']
 
-    custom_id = create_custom_db(primary_user_id)
+        custom_id = create_custom_db(primary_user_id)
 
-    # added_members = [2, 3, 4]
-    allowed_members = request.json["allowed_members"]
-    set_custom_members_db(custom_id[0], [primary_user_id] + allowed_members)
+        # added_members = [2, 3, 4]
+        allowed_members = request.json["allowed_members"]
+        set_custom_members_db(custom_id[0], allowed_members)
 
-    return jsonify(res="ok")
+        return jsonify(res="ok")
+    else:
+        return {"error": "please login"}
 
 
 # 指定したカスタムに指定したメンバーを追加

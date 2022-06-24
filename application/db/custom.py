@@ -19,8 +19,10 @@ def create_custom_db(primary_user_id):
 def set_custom_members_db(custom_id, allowed_members):
     conn = get_connection()
     cur = conn.cursor()
+    sql = 'delete from custom_users where custom_id = %s'
+    cur.execute(sql, (custom_id, ))
     for member in allowed_members:
-        sql = 'insert into custom_users(custom_id, primary_user_id) values(%s, %s)'
+        sql = 'insert into custom_users(custom_id, allowed_user) values(%s, %s)'
         cur.execute(sql, (custom_id, member))
         conn.commit()
     cur.close()
@@ -28,7 +30,7 @@ def set_custom_members_db(custom_id, allowed_members):
 def get_custom_members_db(custom_id):
     conn = get_connection()
     cur = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = 'select primary_user_id from custom_users where custom_id = %s'
+    sql = 'select allowed_user from custom_users where custom_id = %s'
     cur.execute(sql, (custom_id,))
     members = cur.fetchall()
     cur.close()
