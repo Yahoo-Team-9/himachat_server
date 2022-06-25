@@ -1,6 +1,6 @@
 import os
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session, flash, current_app, url_for
-from application.db.user import get_profile_db, edit_profile_db
+from application.db.user import get_profile_db, edit_profile_db, upload_file_db
 from werkzeug.utils import secure_filename
 from pathlib import Path
 
@@ -22,6 +22,17 @@ def get_profile():
     # primary_user_id = 1
     primary_user_id = request.json["primary_user_id"]
     user_profiles = get_profile_db(primary_user_id)
+    #return jsonify(user_profiles)
+    """画像の表示
+    file_path = user_profiles[0][3]
+    #return file_path
+    current_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    path = os.path.join(current_app.config['UPLOAD_FOLDER'], file_path)
+    #return path
+    with open(path, 'rb') as f:
+        icon_file = f.read()
+    return icon_file
+    """
     return jsonify({"user_profiles": user_profiles})
 
 
@@ -49,6 +60,8 @@ def allowed_file(filename):
 @user.route('/upload_file', methods=['POST'])
 def upload_file():
     current_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    primary_user_id = request.json["primary_user_id"]
+    #primary_user_id = 1
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
@@ -60,6 +73,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            upload_file_db(primary_user_id, filename)
             return jsonify(res="ok") #redirect(url_for('download_file', name=filename))
     return jsonify(res="ok")
 
