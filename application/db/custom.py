@@ -68,3 +68,10 @@ def get_use_custom_db(primary_user_id):
     cur.close()
 
     return custom_id
+
+def set_no_use_custom_db(primary_user_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = 'update customs set use_flg = 0 where primary_user_id = %s and use_flg = 1'
+    cur.execute(sql, (primary_user_id,))
+    conn.commit()
