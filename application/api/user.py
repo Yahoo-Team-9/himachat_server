@@ -3,6 +3,7 @@ from flask import Flask, Blueprint, render_template, request, redirect, jsonify,
 from application.db.user import get_profile_db, edit_profile_db, upload_file_db
 from werkzeug.utils import secure_filename
 from pathlib import Path
+from application.db.user import get_profile_db, edit_profile_db, create_user_db
 
 path = Path(__file__).parent
 path /= '../static/img/user_icon'
@@ -77,3 +78,10 @@ def upload_file():
             return jsonify(res="ok") #redirect(url_for('download_file', name=filename))
     return jsonify(res="ok")
 
+ # ユーザー作成
+@user.route("/create_user", methods=["POST"])
+def create_user():
+    # user_profile = {"user_id":"same_desu", "user_name":"さめ", "bio":"さめです"}
+    user_profile = request.json["user_profile"]
+    create_user_db(user_profile)
+    return jsonify(res="ok")
