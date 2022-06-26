@@ -63,6 +63,26 @@ CREATE TABLE follows(
 	REFERENCES users(primary_user_id)
 );
 
+CREATE TABLE pull_notifications(
+    pull_notification_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+    notification_type INT(1),
+    notification_text VARCHAR(256),
+    primary_user_id INT(9),
+    partner_user_id INT(9),
+    in_read BOOLEAN DEFAULT 0,
+    created_at  DATETIME default current_timestamp,
+    updated_at  DATETIME default current_timestamp on update current_timestamp,
+    delete_flg BOOLEAN DEFAULT 0,
+    FOREIGN KEY(primary_user_id)
+    REFERENCES users(primary_user_id),
+    FOREIGN KEY(partner_user_id)
+    REFERENCES users(primary_user_id)
+);
+
+
+
+
+
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("Shishamo_Love","ししゃも","./","こんばんは！暇なときはゲームしています！気軽に誘ってね♡");
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("BGY32ff9weg","しゃけ","./","ご飯食べに行こー！！");
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("sawara_0325","さわら","./","寿司しか勝たん💪");
