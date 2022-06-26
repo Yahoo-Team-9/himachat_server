@@ -24,6 +24,8 @@ def create_app(debug=False):
     from application.api.group import group
     from application.api.chat import chat
     from application.api.leisure import leisure
+    from application.api.notification import notification
+    app.register_blueprint(notification)
     app.register_blueprint(follow)
     app.register_blueprint(group)
     app.register_blueprint(chat)
