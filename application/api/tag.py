@@ -25,7 +25,7 @@ def set_my_tag():
         set_my_tag_db(primary_user_id, tag_id)
         return jsonify(res="ok")
     else:
-        {"error": "please log in"}
+        return {"error": "please log in"}
 
 @tag.route('/unset_my_tag', methods=["POST"])
 def unset_my_tag():
@@ -35,7 +35,7 @@ def unset_my_tag():
         unset_my_tag_db(primary_user_id, tag_id)
         return jsonify(res="ok")
     else:
-        {"error": "please log in"}
+        return {"error": "please log in"}
 
 @tag.route('/get_tag_list', methods=["GET"])
 def get_tag_list():
