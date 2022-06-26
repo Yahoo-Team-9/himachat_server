@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify,session
 
 from application.db.friend import send_friend_req_db, approve_friend_req_db, get_friend_list_db
+from application.db.custom import get_use_custom_db
 import json
 
 friend = Blueprint('friend', __name__, url_prefix='/api/friend')
@@ -10,8 +11,16 @@ friend = Blueprint('friend', __name__, url_prefix='/api/friend')
 def get_friend_list():
     primary_user_id = request.json['primary_user_id']
     friend_list = get_friend_list_db(primary_user_id)
-    if friend_list:
-        return jsonify(friend_list), 200
+    print(friend_list)
+
+    koukai_friend_list = []
+    for friend in friend_list:
+        koukai_list = get_use_custom_db(friend['friend'])
+        if len(koukai_list) == 0 or primary_user_id in koukai_list:
+            koukai_friend_list.append(friend)
+            
+    if koukai_friend_list:
+        return jsonify(koukai_friend_list), 200
     else:
         return jsonify([]), 200
 
