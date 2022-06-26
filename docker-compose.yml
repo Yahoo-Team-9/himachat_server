@@ -22,4 +22,16 @@ services:
     
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
+      - ./data/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+  redis:
+    image: "redis:latest"
+    env_file:
+      - .env
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./data/redis:/data"
+
+    command: >
+      --requirepass ${REDIS_PASSWORD}
 

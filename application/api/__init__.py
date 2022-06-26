@@ -1,1 +1,1 @@
-from . import chat, follow, group, chat_socket,leisure, notification
+from . import chat, friend, group, chat_socket,leisure
