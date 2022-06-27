@@ -46,6 +46,8 @@ def create_app(debug=False):
     from application.api.chat import chat
     from application.api.leisure import leisure
     from application.api.user import user
+    from application.api.custom import custom
+    from application.api.tag import tag
     from application.api.notification import notification
     app.register_blueprint(notification)
     app.register_blueprint(friend)
@@ -53,6 +55,8 @@ def create_app(debug=False):
     app.register_blueprint(chat)
     app.register_blueprint(leisure)
     app.register_blueprint(user)
+    app.register_blueprint(custom)
+    app.register_blueprint(tag)
 
     socketio.init_app(app)
     return app
