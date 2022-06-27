@@ -12,8 +12,16 @@ friend = Blueprint('friend', __name__, url_prefix='/api/friend')
 @friend.route('/get_friend_list', methods=["GET"])
 def get_friend_list():
     primary_user_id = request.json['primary_user_id']
-    friend_list = get_friend_list_db(primary_user_id)
-    print(friend_list)
+    friend_list = get_friend_list_db(primary_user_id)            
+    if friend_list:
+        return jsonify(friend_list), 200
+    else:
+        return jsonify([]), 200
+
+@friend.route('/get_hima_friend_list', methods=["GET"])
+def get_hima_friend_list():
+    primary_user_id = request.json['primary_user_id']
+    friend_list = get_friend_list_db(primary_user_id, only_hima=True)
 
     koukai_friend_list = []
     for friend in friend_list:
@@ -25,7 +33,6 @@ def get_friend_list():
         return jsonify(koukai_friend_list), 200
     else:
         return jsonify([]), 200
-
 
 @friend.route('/send_friend_req', methods=["POST"])
 def send_friend_req():
