@@ -34,7 +34,7 @@ def send_friend_req():
         friend = request.json['friend']
         send_friend_req_db(primary_user_id, friend)
         #通知を設定する
-        set_notification_db(primary_user_id, 1, partner=friend)
+        set_notification_db(friend, 1, partner=primary_user_id)
         return jsonify(res="ok")
     else:
         return {"error" : "please login"}
@@ -46,7 +46,7 @@ def approve_friend_req():
         friend = request.json['friend']
         approve_friend_req_db(approver=primary_user_id, approved=friend)
 
-        set_notification_db(primary_user_id, 2, partner=friend)
+        set_notification_db(friend, 2, partner=primary_user_id)
         return jsonify(res="ok")
     else:
         return {"error" : "please login"}
