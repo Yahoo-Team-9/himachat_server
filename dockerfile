@@ -17,6 +17,8 @@ RUN python -m pip install mysql
 RUN python -m pip install flask-socketio
 RUN python -m pip install opencv-python
 RUN python -m pip install requests
+RUN python -m pip install redis
+RUN python -m pip install beaker
 
 ENV SECRET_KEY `cat /dev/urandom | base64 | fold -w 32 | head -n 1`
 

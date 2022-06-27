@@ -50,18 +50,66 @@ CREATE TABLE chats(
 	REFERENCES user_groups(group_id)
 );
 
-CREATE TABLE follows(
-	follow_id INT(12) PRIMARY KEY AUTO_INCREMENT,
-	follow_user INT(9),
-	follower_user INT(9),
+CREATE TABLE friends(
+	friend_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+	primary_user_id INT(9),
+	friend INT(9),
+	approval BOOLEAN DEFAULT 0,
 	created_at  DATETIME default current_timestamp,
 	updated_at  DATETIME default current_timestamp on update current_timestamp,
 	delete_flg BOOLEAN DEFAULT 0,
-	FOREIGN KEY(follow_user)
+	FOREIGN KEY(primary_user_id)
 	REFERENCES users(primary_user_id),
-	FOREIGN KEY(follower_user)
+	FOREIGN KEY(friend)
 	REFERENCES users(primary_user_id)
 );
+
+CREATE TABLE customs(
+	custom_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+	primary_user_id INT(9),
+	use_flg BOOLEAN DEFAULT 0,
+	created_at  DATETIME default current_timestamp,
+	updated_at  DATETIME default current_timestamp on update current_timestamp,
+	delete_flg BOOLEAN DEFAULT 0,
+	FOREIGN KEY(primary_user_id)
+	REFERENCES users(primary_user_id)
+);
+
+CREATE TABLE custom_users(
+	custom_user_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+	custom_id INT(12),
+	allowed_user INT(9),
+	created_at  DATETIME default current_timestamp,
+	updated_at  DATETIME default current_timestamp on update current_timestamp,
+	delete_flg BOOLEAN DEFAULT 0,
+	FOREIGN KEY(custom_id)
+	REFERENCES customs(custom_id),
+	FOREIGN KEY(allowed_user)
+	REFERENCES users(primary_user_id)
+);
+
+CREATE TABLE tags(
+	tag_id INT(9) PRIMARY KEY AUTO_INCREMENT,
+	tag_name VARCHAR(64),
+	created_at  DATETIME default current_timestamp,
+	updated_at  DATETIME default current_timestamp on update current_timestamp,
+	delete_flg BOOLEAN DEFAULT 0
+);
+
+CREATE TABLE user_tags(
+	user_tag_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+	primary_user_id INT(9),
+	tag_id INT(9),
+	created_at  DATETIME default current_timestamp,
+	updated_at  DATETIME default current_timestamp on update current_timestamp,
+	delete_flg BOOLEAN DEFAULT 0,
+	FOREIGN KEY(primary_user_id)
+	REFERENCES users(primary_user_id),
+	FOREIGN KEY(tag_id)
+	REFERENCES tags(tag_id)
+);
+
+
 
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("Shishamo_Love","ししゃも","./","こんばんは！暇なときはゲームしています！気軽に誘ってね♡");
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("BGY32ff9weg","しゃけ","./","ご飯食べに行こー！！");

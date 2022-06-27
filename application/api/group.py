@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
 
 from application.db.group import create_group_db, add_member_db, get_group_members_db, get_group_list_db, get_group_db
-from application.db.follow import get_follow_list_db
+# from application.db.follow import get_follow_list_db
 
 
 group = Blueprint('group', __name__, url_prefix='/api/group')

@@ -9,7 +9,7 @@ app = create_app(debug=True)
 @app.route("/")
 def index():
     # TODO: 仮セッション
-    session['user'] = '1'
+    session['user'] = '5'
     return render_template('sample.html', users=get_users())
 
 
