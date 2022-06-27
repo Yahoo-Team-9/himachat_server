@@ -74,20 +74,19 @@ from flask_socketio import emit, join_room, leave_room,send
 from application.db.chat import insert_message_db
 
 @socketio.on("join")
-def on_join(username, chatRoom):
-    join_room(chatRoom)
-    print(f"{username} has connected")
-    send(username + " has entered the room.", to=chatRoom)
+def on_join(username, rooms):
+    for room in list(rooms):
+        join_room(room)
+        print(f"{username} has connected in {room}")
 
 
 @socketio.on('leave')
-def on_leave(username, chatRoom):
-    leave_room(chatRoom)
+def on_leave(username, rooms):
+    for room in rooms:
+        leave_room(room)
+        print(f"{username} has left from {room}")
 
-    print(f"{username} has left")
-
-
-@socketio.on("message")
-def handle_message(chatRoom, primary_user_id, message):
-    insert_message_db(chatRoom, primary_user_id, message)
-    emit("message", message, to=chatRoom)
+@socketio.on('update_hima_status')
+def handle_status(rooms):
+    for room in rooms:
+        emit("update_hima_status", to=room)
