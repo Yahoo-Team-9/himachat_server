@@ -4,6 +4,8 @@ from application.db.friend import send_friend_req_db, approve_friend_req_db, get
 from application.db.custom import get_use_custom_db
 import json
 
+from application.db.notification import set_notification_db
+
 friend = Blueprint('friend', __name__, url_prefix='/api/friend')
 
 
@@ -31,6 +33,8 @@ def send_friend_req():
         primary_user_id = session['user']
         friend = request.json['friend']
         send_friend_req_db(primary_user_id, friend)
+        #通知を設定する
+        set_notification_db(primary_user_id, 1, partner=friend)
         return jsonify(res="ok")
     else:
         return {"error" : "please login"}
@@ -41,6 +45,8 @@ def approve_friend_req():
         primary_user_id = session['user']
         friend = request.json['friend']
         approve_friend_req_db(approver=primary_user_id, approved=friend)
+
+        set_notification_db(primary_user_id, 2, partner=friend)
         return jsonify(res="ok")
     else:
         return {"error" : "please login"}

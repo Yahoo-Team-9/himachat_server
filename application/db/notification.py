@@ -25,7 +25,7 @@ def get_notification_db(primary_user_id) -> list:
     return notification_list
 
 def set_notification_db(primary_user_id,notification_type,text='',partner= '') -> int:
-    #notification_type: 0:friend_request,1:message,2:hima
+    #notification_type: 0:friend_request,1:frend_a,2:hima
     conn = get_connection()
     cur = conn.cursor()
 
