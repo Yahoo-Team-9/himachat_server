@@ -88,6 +88,29 @@ CREATE TABLE custom_users(
 	REFERENCES users(primary_user_id)
 );
 
+CREATE TABLE tags(
+	tag_id INT(9) PRIMARY KEY AUTO_INCREMENT,
+	tag_name VARCHAR(64),
+	created_at  DATETIME default current_timestamp,
+	updated_at  DATETIME default current_timestamp on update current_timestamp,
+	delete_flg BOOLEAN DEFAULT 0
+);
+
+CREATE TABLE user_tags(
+	user_tag_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+	primary_user_id INT(9),
+	tag_id INT(9),
+	created_at  DATETIME default current_timestamp,
+	updated_at  DATETIME default current_timestamp on update current_timestamp,
+	delete_flg BOOLEAN DEFAULT 0,
+	FOREIGN KEY(primary_user_id)
+	REFERENCES users(primary_user_id),
+	FOREIGN KEY(tag_id)
+	REFERENCES tags(tag_id)
+);
+
+
+
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("Shishamo_Love","ししゃも","./","こんばんは！暇なときはゲームしています！気軽に誘ってね♡");
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("BGY32ff9weg","しゃけ","./","ご飯食べに行こー！！");
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("sawara_0325","さわら","./","寿司しか勝たん💪");
