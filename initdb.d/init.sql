@@ -9,7 +9,8 @@ CREATE TABLE users(
 	login_at DATETIME default current_timestamp,
 	created_at DATETIME default current_timestamp,
 	updated_at DATETIME default current_timestamp on update current_timestamp,
-	delete_flg BOOLEAN DEFAULT 0
+	delete_flg BOOLEAN DEFAULT 0,
+	hima BOOLEAN DEFAULT 1
 );
 
 CREATE TABLE user_groups(
