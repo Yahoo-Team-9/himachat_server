@@ -88,20 +88,22 @@ CREATE TABLE custom_users(
 	REFERENCES users(primary_user_id)
 );
 
-CREATE TABLE pull_notifications(
+CREATE TABLE pull_notifications
+(
     pull_notification_id INT(12) PRIMARY KEY AUTO_INCREMENT,
-    notification_type INT(1),
-    notification_text VARCHAR(256),
-    primary_user_id INT(9),
-    partner_user_id INT(9),
-    in_read BOOLEAN DEFAULT 0,
-    created_at  DATETIME default current_timestamp,
-    updated_at  DATETIME default current_timestamp on update current_timestamp,
-    delete_flg BOOLEAN DEFAULT 0,
-    FOREIGN KEY(primary_user_id)
-    REFERENCES users(primary_user_id),
-    FOREIGN KEY(partner_user_id)
-    REFERENCES users(primary_user_id)
+    notification_type    INT(1),
+    notification_text    VARCHAR(256),
+    primary_user_id      INT(9),
+    partner_user_id      INT(9),
+    in_read              BOOLEAN  DEFAULT 0,
+    created_at           DATETIME default current_timestamp,
+    updated_at           DATETIME default current_timestamp on update current_timestamp,
+    delete_flg           BOOLEAN  DEFAULT 0,
+    FOREIGN KEY (primary_user_id)
+        REFERENCES users (primary_user_id),
+    FOREIGN KEY (partner_user_id)
+        REFERENCES users (primary_user_id)
+);
 
 CREATE TABLE tags(
 	tag_id INT(9) PRIMARY KEY AUTO_INCREMENT,
