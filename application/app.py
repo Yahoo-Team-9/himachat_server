@@ -1,3 +1,5 @@
+import eventlet
+
 from application.db.connect import get_connection
 from flask import Flask, render_template, request, jsonify, session
 from flask_socketio import SocketIO
@@ -9,7 +11,6 @@ from datetime import timedelta
 from flask_session import Session
 
 REDIS_URL = os.environ.get('REDIS_URL')
-
 app = Flask(__name__)
 app.debug = True
 app.config['JSON_AS_ASCII'] = False
@@ -19,7 +20,7 @@ app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_REDIS'] = redis.from_url(REDIS_URL)
 Session(app)
 
-app.secret_key = os.environ["SECRET_KEY"]
+app.secret_key = os.environ.get("SECRET_KEY")
 app.permanent_session_lifetime = timedelta(hours=12)
 
 from application.api.friend import friend
@@ -41,7 +42,7 @@ app.register_blueprint(custom)
 app.register_blueprint(tag)
 
 
-socketio = SocketIO(app,logger=True, engineio_logger=True, cors_allowed_origins='*')
+socketio = SocketIO(app,logger=True, engineio_logger=True, cors_allowed_origins='*',message_queue=REDIS_URL)
 
 
 
@@ -91,3 +92,6 @@ def on_leave(username, chatRoom):
 def handle_message(chatRoom, primary_user_id, message):
     insert_message_db(chatRoom, primary_user_id, message)
     emit("message", message, to=chatRoom)
+
+if __name__ == '__main__':
+    socketio.run(app,host='0.0.0.0', port=8080)

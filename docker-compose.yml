@@ -3,9 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "8080:5000"
-    volumes:
-      - ./:/app
+      - "8080:8080"
     depends_on:
       - db
     env_file:
