@@ -71,8 +71,7 @@ def index_2():
 
 from flask_socketio import emit, join_room, leave_room,send
 
-from application.db.chat import insert_message_db
-
+# friendsテーブルのfriend_idをroomのidとしている→ 自分の友達に対してリアルタイムな通知を送信できる
 @socketio.on("join")
 def on_join(username, rooms):
     for room in list(rooms):
@@ -86,6 +85,9 @@ def on_leave(username, rooms):
         leave_room(room)
         print(f"{username} has left from {room}")
 
+# 使い方の想定：
+# 暇になった(loginしたなど)、もしくは、暇じゃなくなったら、クライアントからここにemit
+# 友達は、誰かのhima状態が変わったことがわかる → top画面を更新してもらう
 @socketio.on('update_hima_status')
 def handle_status(rooms):
     for room in rooms:
