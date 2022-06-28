@@ -25,4 +25,4 @@ RUN python -m pip install -r requirements.txt
 
 EXPOSE 5000
 
-CMD [ "/bin/sh", "-c","gunicorn", "--worker-class", "eventlet" ,"-w", "1","--threads", "10", "application.app:app" ]
+CMD [ "gunicorn", "--worker-class", "eventlet" ,"-w", "1","--threads", "10", "application.app:app" ]
