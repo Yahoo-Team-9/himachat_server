@@ -8,7 +8,7 @@ ENV LANGUAGE ja_JP:ja
 ENV LC_ALL ja_JP.UTF-8
 ENV TZ JST-9
 ENV TERM xterm
-ENV SECRET_KEY "B0xeu8qehf[of-21rfo2rj3ojfgj2ojfs2o-ik"\
+ENV SECRET_KEY "B0xeu8qehf[of-21rfo2rj3ojfgj2ojfs2o-ik"
 ENV PORT  8080
 ENV MYSQL_USER b644c34d917430
 ENV MYSQL_DATABASE heroku_60c5e0a606ac3df
@@ -25,4 +25,3 @@ RUN python -m pip install -r requirements.txt
 
 EXPOSE 8080
 
-CMD [ "gunicorn", "--worker-class", "eventlet" ,"-w", "1","--threads", "10", "--bind" ,"0.0.0.0:${PORT}" ,"application.app:app" ]
