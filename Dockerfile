@@ -25,3 +25,4 @@ RUN python -m pip install -r requirements.txt
 
 EXPOSE 8080
 
+CMD ["/bin/sh", "-c","gunicorn", "--worker-class", "eventlet" ,"-w", "1","--threads", "10", "--bind" ,"0.0.0.0：${PORT}" ,"application.app:app" ]
