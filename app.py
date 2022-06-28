@@ -1,7 +1,5 @@
-import eventlet
-
-from application.db.connect import get_connection
-from flask import Flask, render_template, request, jsonify, session
+from db.connect import get_connection
+from flask import render_template, session
 from flask_socketio import SocketIO
 import os
 import redis
@@ -23,14 +21,14 @@ Session(app)
 app.secret_key = os.environ.get("SECRET_KEY")
 app.permanent_session_lifetime = timedelta(hours=12)
 
-from application.api.friend import friend
-from application.api.group import group
-from application.api.chat import chat
-from application.api.leisure import leisure
-from application.api.user import user
-from application.api.custom import custom
-from application.api.tag import tag
-from application.api.notification import notification
+from api.friend import friend
+from api.group import group
+from api.chat import chat
+from api.leisure import leisure
+from api.user import user
+from api.custom import custom
+from api.tag import tag
+from api.notification import notification
 
 app.register_blueprint(notification)
 app.register_blueprint(friend)
@@ -50,7 +48,7 @@ socketio = SocketIO(app,logger=True, engineio_logger=True, cors_allowed_origins=
 def index():
     # TODO: 仮セッション
     session['user'] = '5'
-    return render_template('sample.html', users=get_users())
+    return render_template('templates/sample.html', users=get_users())
 
 
 def get_users():
@@ -67,12 +65,12 @@ def get_users():
 
 @app.route("/test")
 def index_2():
-    return render_template('sample.html', users=get_users())
+    return render_template('templates/sample.html', users=get_users())
 
 
 from flask_socketio import emit, join_room, leave_room,send
 
-from application.db.chat import insert_message_db
+from db.chat import insert_message_db
 
 @socketio.on("join")
 def on_join(username, chatRoom):

@@ -1,6 +1,6 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
+from flask import Blueprint, request, jsonify, session
 
-from application.db.group import create_group_db, add_member_db, get_group_members_db, get_group_list_db, get_group_db
+from db.group import create_group_db, add_member_db, get_group_members_db, get_group_list_db, get_group_db
 # from application.db.follow import get_follow_list_db
 
 

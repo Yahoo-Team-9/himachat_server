@@ -1,5 +1,5 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
-from application.db.chat import get_group_messages_db
+from flask import Blueprint, request
+from db.chat import get_group_messages_db
 
 
 chat = Blueprint('chat', __name__, url_prefix='/api/chat')

@@ -1,5 +1,5 @@
 import MySQLdb
-from application.db.connect import get_connection
+from db.connect import get_connection
 
 def insert_message_db(chatRoom, primary_user_id, message):
     conn = get_connection()

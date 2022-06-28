@@ -1,4 +1,4 @@
-from application.db.connect import get_connection
+from db.connect import get_connection
 
 
 def set_leisure_time(primary_user_id) -> int:

@@ -1,5 +1,5 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify,session
-from application.db.tag import create_tag_db, search_tag_db, set_my_tag_db, unset_my_tag_db, get_tag_list_db
+from flask import Blueprint, request, jsonify,session
+from db.tag import create_tag_db, search_tag_db, set_my_tag_db, unset_my_tag_db, get_tag_list_db
 
 tag = Blueprint('tag', __name__, url_prefix='/api/tag')
 

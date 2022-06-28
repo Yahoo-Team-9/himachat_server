@@ -1,6 +1,6 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
+from flask import Blueprint, request, jsonify, session
 
-from application.db.custom import create_custom_db, set_custom_members_db, get_custom_list_db, get_custom_members_db, set_custom_use_flg_db, set_no_use_custom_db
+from db.custom import create_custom_db, set_custom_members_db, get_custom_list_db, get_custom_members_db, set_custom_use_flg_db, set_no_use_custom_db
 
 custom = Blueprint('custom', __name__, url_prefix='/api/custom')
 

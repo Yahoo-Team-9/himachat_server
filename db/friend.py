@@ -1,6 +1,6 @@
 import MySQLdb
 
-from application.db.connect import get_connection
+from db.connect import get_connection
 
 
 def send_friend_req_db(primary_user_id: str, friend: str) -> int:

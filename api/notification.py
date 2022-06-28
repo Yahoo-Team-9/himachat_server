@@ -1,8 +1,6 @@
-import json
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
+from flask import Blueprint, request, jsonify, session
 
-from application.db.connect import get_connection
-from application.db.notification import get_notification_db, set_notification_db
+from db.notification import get_notification_db, set_notification_db
 
 notification = Blueprint('notification', __name__, url_prefix='/api/notification')
 

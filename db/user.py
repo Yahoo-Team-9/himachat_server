@@ -1,5 +1,4 @@
-import MySQLdb
-from application.db.connect import get_connection
+from db.connect import get_connection
 
 def get_profile_db(primary_user_id):
     conn = get_connection()

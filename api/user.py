@@ -1,14 +1,10 @@
 import os
 
-
-import time
-import json
 import base64
 import numpy as np
 import cv2
-import requests
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session, flash, current_app, url_for
-from application.db.user import get_profile_db, edit_profile_db, upload_file_db, create_user_db, set_hima_status_db
+from flask import Blueprint, request, jsonify, session, current_app
+from db.user import get_profile_db, edit_profile_db, upload_file_db, create_user_db, set_hima_status_db
 from werkzeug.utils import secure_filename
 from pathlib import Path
 

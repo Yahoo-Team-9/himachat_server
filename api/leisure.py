@@ -1,7 +1,7 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
+from flask import Blueprint, jsonify, session
 
-from application.db.leisure import set_leisure_time
-from application.db.user import set_hima_status_db
+from db.leisure import set_leisure_time
+from db.user import set_hima_status_db
 
 leisure = Blueprint('leisure', __name__, url_prefix='/api/leisure')
 

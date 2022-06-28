@@ -1,10 +1,9 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify,session
+from flask import Blueprint, request, jsonify,session
 
-from application.db.friend import send_friend_req_db, approve_friend_req_db, get_friend_list_db
-from application.db.custom import get_use_custom_db
-import json
+from db.friend import send_friend_req_db, approve_friend_req_db, get_friend_list_db
+from db.custom import get_use_custom_db
 
-from application.db.notification import set_notification_db
+from db.notification import set_notification_db
 
 friend = Blueprint('friend', __name__, url_prefix='/api/friend')
 
