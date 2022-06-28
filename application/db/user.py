@@ -37,3 +37,12 @@ def create_user_db(user_profile):
     conn.commit()
     cur.close()
     conn.close()
+
+def set_hima_status_db(primary_user_id, status):
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = 'update users set hima = %s where primary_user_id = %s'
+    cur.execute(sql,(status, primary_user_id))
+    conn.commit()
+    cur.close()
+    conn.close()
