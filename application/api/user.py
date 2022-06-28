@@ -8,10 +8,9 @@ import numpy as np
 import cv2
 import requests
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session, flash, current_app, url_for
-from application.db.user import get_profile_db, edit_profile_db, upload_file_db
+from application.db.user import get_profile_db, edit_profile_db, upload_file_db, create_user_db, set_hima_status_db
 from werkzeug.utils import secure_filename
 from pathlib import Path
-from application.db.user import get_profile_db, edit_profile_db, create_user_db
 
 path = Path(__file__).parent
 path /= '../static/img/user_icon'
@@ -100,4 +99,13 @@ def create_user():
     return jsonify(res="ok")
 
 
+@user.route("/set_hima_status", methods=["POST"])
+def set_not_hima():
+    if "user" in session:
+        primary_user_id = session["user"]
+        hima_status = request.json["hima_status"] #1 = hima, 0 = not hima
+        set_hima_status_db(primary_user_id, hima_status)
+        return jsonify(res="ok")
+    else:
+        return {"error": "please login"}
 

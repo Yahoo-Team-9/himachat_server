@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session
 
 from application.db.leisure import set_leisure_time
+from application.db.user import set_hima_status_db
 
 leisure = Blueprint('leisure', __name__, url_prefix='/api/leisure')
 
@@ -12,6 +13,7 @@ def set_leisure():
      """
      if 'user' in session:
         status = set_leisure_time(session['user'])
+        set_hima_status_db(session["user"], 1)
 
         if status == 0:
             return jsonify({"status": "OK"}), 200
