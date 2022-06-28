@@ -94,4 +94,4 @@ def handle_message(chatRoom, primary_user_id, message):
     emit("message", message, to=chatRoom)
 
 if __name__ == '__main__':
-    socketio.run(app,host='0.0.0.0', port=8080)
+    socketio.run(app,host='0.0.0.0', port=os.environ.get("PORT"))
