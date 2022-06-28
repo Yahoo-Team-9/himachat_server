@@ -9,7 +9,7 @@ ENV LC_ALL ja_JP.UTF-8
 ENV TZ JST-9
 ENV TERM xterm
 ENV SECRET_KEY "B0xeu8qehf[of-21rfo2rj3ojfgj2ojfs2o-ik"
-
+ENV PORT  5000
 ENV MYSQL_USER b644c34d917430
 ENV MYSQL_DATABASE heroku_60c5e0a606ac3df
 ENV DATABASE_HOST us-cdbr-east-05.cleardb.net
@@ -23,6 +23,6 @@ RUN pip install --upgrade setuptools
 RUN python -m pip install flask
 RUN python -m pip install -r requirements.txt
 
+EXPOSE 5000
 
-
-ENTRYPOINT [ "/bin/sh", "-c","cd"," /app" ,"&&" ,"gunicorn", "--worker-class", "eventlet" ,"-w", "1","--threads", "10", "--bind" ,"0.0.0.0:${PORT}" ,"application.app:app" ]
+CMD [ "/bin/sh", "-c","gunicorn", "--worker-class", "eventlet" ,"-w", "1","--threads", "10", "application.app:app" ]
