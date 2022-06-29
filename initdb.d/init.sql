@@ -68,6 +68,7 @@ CREATE TABLE friends(
 CREATE TABLE customs(
 	custom_id INT(12) PRIMARY KEY AUTO_INCREMENT,
 	primary_user_id INT(9),
+	custom_name VARCHAR(64),
 	use_flg BOOLEAN DEFAULT 0,
 	created_at  DATETIME default current_timestamp,
 	updated_at  DATETIME default current_timestamp on update current_timestamp,

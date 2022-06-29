@@ -20,7 +20,7 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 
 
 # プロフィール表示(該当ユーザの全カラム取得)
-@user.route("/get_profile", methods=["GET"])
+@user.route("/get_profile", methods=["POST"])
 def get_profile():
     """
     primary_user_idのユーザー情報を取得するAPI
@@ -36,13 +36,17 @@ def get_profile():
     if file_path == "./":
         img_byte = ""
     else:
+        """
         current_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
         path = os.path.join(current_app.config['UPLOAD_FOLDER'], file_path)
         with open(path, 'rb') as f:
             icon_file = f.read()
         # 画像をbase64に変換
         img_byte = base64.b64encode(icon_file).decode("utf-8")
-    return jsonify({"user_profiles":user_profiles,"icon_img": img_byte})
+        """
+        path = os.path.join('../static/img/user_icon', file_path)
+        
+    return jsonify({"user_profiles":user_profiles,"icon_path":path})
     
 
 # プロフィール編集（画像以外）

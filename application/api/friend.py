@@ -9,7 +9,7 @@ from application.db.notification import set_notification_db
 friend = Blueprint('friend', __name__, url_prefix='/api/friend')
 
 
-@friend.route('/get_friend_list', methods=["GET"])
+@friend.route('/get_friend_list', methods=["POST"])
 def get_friend_list():
     primary_user_id = request.json['primary_user_id']
     friend_list = get_friend_list_db(primary_user_id)            
@@ -18,7 +18,7 @@ def get_friend_list():
     else:
         return jsonify([]), 200
 
-@friend.route('/get_hima_friend_list', methods=["GET"])
+@friend.route('/get_hima_friend_list', methods=["POST"])
 def get_hima_friend_list():
     primary_user_id = request.json['primary_user_id']
     friend_list = get_friend_list_db(primary_user_id, only_hima=True)
