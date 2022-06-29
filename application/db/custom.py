@@ -2,11 +2,11 @@ import MySQLdb
 from application.db.connect import get_connection
 
 
-def create_custom_db(primary_user_id):
+def create_custom_db(primary_user_id, custom_name):
     conn = get_connection()
     cur = conn.cursor()
-    sql = 'insert into customs(primary_user_id) values(%s)'
-    cur.execute(sql, (primary_user_id, ))
+    sql = 'insert into customs(primary_user_id, custom_name) values(%s, %s)'
+    cur.execute(sql, (primary_user_id, custom_name))
     conn.commit()
 
     cur.execute('select last_insert_id();')
@@ -40,7 +40,7 @@ def get_custom_members_db(custom_id):
 def get_custom_list_db(primary_user_id):
     conn = get_connection()
     cur = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = 'select custom_id from customs where primary_user_id = %s'
+    sql = 'select custom_id, custom_name from customs where primary_user_id = %s'
     cur.execute(sql, (primary_user_id,))
     custom_list = cur.fetchall()
     cur.close()

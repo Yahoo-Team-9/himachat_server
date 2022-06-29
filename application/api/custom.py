@@ -13,13 +13,13 @@ def get_custom_members():
     return {"members": members}
 
 
-# カスタム作成&指定したメンバーを追加
+# カスタム作成&指定したメンバーを追加-
 @custom.route("/create_custom", methods=["POST"])
 def create_group():
     if 'user' in session:
         primary_user_id = session['user']
-
-        custom_id = create_custom_db(primary_user_id)
+        custom_name = request.json["custom_id"]
+        custom_id = create_custom_db(primary_user_id, custom_name)
 
         # added_members = [2, 3, 4]
         allowed_members = request.json["allowed_members"]
@@ -39,7 +39,7 @@ def update_group():
 
     return jsonify(res="ok")
 
-# カスタム設定の一覧を取得
+# カスタム設定の一覧を取得-
 @custom.route("/get_custom_list", methods=["GET"])
 def get_custom_list():
     if 'user' in session:
