@@ -19,6 +19,7 @@ RUN python -m pip install opencv-python
 RUN python -m pip install requests
 RUN python -m pip install redis
 RUN python -m pip install flask-session
+RUN python -m pip install flask-cors
 
 ENV SECRET_KEY `cat /dev/urandom | base64 | fold -w 32 | head -n 1`
 
