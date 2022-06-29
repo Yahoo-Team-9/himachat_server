@@ -20,7 +20,7 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 
 
 # プロフィール表示(該当ユーザの全カラム取得)
-@user.route("/get_profile", methods=["GET"])
+@user.route("/get_profile", methods=["POST"])
 def get_profile():
     """
     primary_user_idのユーザー情報を取得するAPI

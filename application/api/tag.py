@@ -11,7 +11,7 @@ def create_tag():
     return jsonify(res="ok")
 
 
-@tag.route('/search_tag', methods=["GET"])
+@tag.route('/search_tag', methods=["POST"])
 def search_tag():
     keyword = request.json['keyword']
     result = search_tag_db(keyword)
@@ -37,7 +37,7 @@ def unset_my_tag():
     else:
         return {"error": "please log in"}
 
-@tag.route('/get_tag_list', methods=["GET"])
+@tag.route('/get_tag_list', methods=["POST"])
 def get_tag_list():
     primary_user_id = request.json["primary_user_id"]
     tag_list = get_tag_list_db(primary_user_id)

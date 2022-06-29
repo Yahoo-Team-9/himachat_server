@@ -5,7 +5,7 @@ from application.db.custom import create_custom_db, set_custom_members_db, get_c
 custom = Blueprint('custom', __name__, url_prefix='/api/custom')
 
 # 指定したカスタム設定のメンバー取得
-@custom.route("/get_custom_members", methods=["GET"])
+@custom.route("/get_custom_members", methods=["POST"])
 def get_custom_members():
     custom_id = request.json["custom_id"]
     members = get_custom_members_db(custom_id)    
