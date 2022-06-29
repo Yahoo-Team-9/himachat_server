@@ -21,7 +21,7 @@ app.config['SESSION_REDIS'] = redis.from_url(REDIS_URL)
 Session(app)
 
 app.secret_key = os.environ.get("SECRET_KEY")
-app.permanent_session_lifetime = timedelta(hours=12)
+app.permanent_session_lifetime = timedelta(hours=6)
 
 from application.api.friend import friend
 from application.api.group import group
@@ -94,5 +94,4 @@ def handle_message(chatRoom, primary_user_id, message):
     emit("message", message, to=chatRoom)
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    socketio.run(app,host='0.0.0.0', port=port)
+    socketio.run(app,host='0.0.0.0',port=8080)
