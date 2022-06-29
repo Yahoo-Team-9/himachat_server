@@ -7,7 +7,7 @@ from application.db.group import create_group_db, add_member_db, get_group_membe
 group = Blueprint('group', __name__, url_prefix='/api/group')
 
 # 指定したグループのメンバー取得
-@group.route("/get_group_members", methods=["GET"])
+@group.route("/get_group_members", methods=["POST"])
 def get_group_members():
     # group_id = 37
     group_id = request.json["group_id"]
