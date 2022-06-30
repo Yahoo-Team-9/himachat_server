@@ -171,6 +171,13 @@ INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("ebi_0019","え�
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("ji0h3fhjweuh02","たちうお","./","仕事中~");
 INSERT INTO users(user_id,user_name,user_image_pass,bio) VALUES("8_oct","たこ","./","フィンランド🇫🇮なう！");
 
+INSERT INTO friends(primary_user_id, friend, approval) VALUES(1, 2, 1);
+INSERT INTO friends(primary_user_id, friend, approval) VALUES(2, 1, 1);
+INSERT INTO friends(primary_user_id, friend, approval) VALUES(1, 3, 1);
+INSERT INTO friends(primary_user_id, friend, approval) VALUES(3, 1, 1);
+INSERT INTO friends(primary_user_id, friend, approval) VALUES(1, 4, 1);
+INSERT INTO friends(primary_user_id, friend, approval) VALUES(4, 1, 1);
+
 
 -- INSERT INTO users(mail,name) VALUES("exemple@exemple2.com","user2");
 -- INSERT INTO users(mail,name) VALUES("exemple@exemple3.com","user3");
