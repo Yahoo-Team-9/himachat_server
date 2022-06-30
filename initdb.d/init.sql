@@ -13,6 +13,36 @@ CREATE TABLE users(
 	hima BOOLEAN DEFAULT 1
 );
 
+CREATE TABLE social_login_users(
+    social_login_id INT(9) PRIMARY KEY AUTO_INCREMENT,
+    primary_user_id INT(9) ,
+    email VARCHAR(128) NOT NULL,
+    provider_name VARCHAR(64) NOT NULL,
+    created_at DATETIME default current_timestamp,
+	updated_at DATETIME default current_timestamp on update current_timestamp,
+	delete_flg BOOLEAN DEFAULT 0,
+	FOREIGN KEY(primary_user_id)
+	REFERENCES users(primary_user_id)
+);
+
+CREATE TABLE secret_user_sessions(
+    primary_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+    primary_user_id INT(9) NOT NULL,
+    secret_id VARCHAR(64) NOT NULL,
+    used_flg BOOLEAN DEFAULT 0,
+    created_at DATETIME default current_timestamp
+);
+
+
+CREATE TABLE server_hash
+(
+    primary_id INT(12) PRIMARY KEY AUTO_INCREMENT,
+    secret_id VARCHAR(64) NOT NULL,
+    used_flg BOOLEAN DEFAULT 0,
+    created_at DATETIME default current_timestamp
+);
+
+
 CREATE TABLE user_groups(
 	group_id INT(12) PRIMARY KEY AUTO_INCREMENT,
 	group_owner INT(9),

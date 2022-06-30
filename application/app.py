@@ -46,6 +46,11 @@ CORS(
     supports_credentials=True
 )
 
+app.config.update(
+    SESSION_COOKIE_SAMESITE='None',
+    SESSION_COOKIE_SECURE = True
+)
+
 
 socketio = SocketIO(app,logger=True, engineio_logger=True, cors_allowed_origins='*')
 

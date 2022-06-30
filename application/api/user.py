@@ -8,9 +8,13 @@ import numpy as np
 import cv2
 import requests
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session, flash, current_app, url_for
-from application.db.user import get_profile_db, edit_profile_db, upload_file_db, create_user_db, set_hima_status_db
+from application.db.user import get_profile_db, edit_profile_db, upload_file_db, create_user_db, set_hima_status_db, \
+    set_server_hash, get_social_login_db, check_server_hash, set_session_token, get_session_token
 from werkzeug.utils import secure_filename
 from pathlib import Path
+
+from application.util.random_string import randomstring
+from application.util.sha256 import sha256_text
 
 path = Path(__file__).parent
 path /= '../static/img/user_icon'
@@ -112,4 +116,61 @@ def set_not_hima():
         return jsonify(res="ok")
     else:
         return {"error": "please login"}
+
+
+@user.route("/get_server_hash", methods=["GET"])
+def get_server_hash():
+    rstr = randomstring(64)
+    hash_256 = sha256_text(rstr,os.environ['HASH'])
+    set_server_hash(hash_256)
+
+    return jsonify(res=rstr)
+
+
+
+@user.route("/login_auth", methods=["POST"])
+def login_auth():
+    if not 'email' in request.json:
+        return jsonify(res="error request")
+
+    if not  'provider' in request.json:
+        return jsonify(res="error request")
+
+    if not 'server_token' in request.json:
+        return jsonify(res="error request")
+
+    email  = request.json["email"]
+    provider = request.json["provider"]
+    server_token = request.json["server_token"]
+    name = 'user'
+    if  'name' in request.json:
+        name = request.json["name"]
+
+    if check_server_hash(server_token):
+        get_res =  get_social_login_db(email, name,provider)
+        primary_user_id = get_res[0]
+        if primary_user_id == -1:
+            return jsonify(res="error")
+        else:
+            secret = randomstring(64)
+            set_session_token(secret, primary_user_id)
+
+            return jsonify(session_token=secret, primary_user_id=primary_user_id,new_user=get_res[1])
+    return jsonify(res="invalid server token")
+
+@user.route("/set_session", methods=["POST"])
+def get_session():
+    if not 'session_token' in request.json :
+        return jsonify(res="error request")
+    if not 'primary_user_id' in request.json :
+        return jsonify(res="error request")
+    session_token = request.json["session_token"]
+    primary_user_id = request.json["primary_user_id"]
+    sql_primary_id = get_session_token(session_token,primary_user_id)
+    if sql_primary_id:
+        session["user"] = sql_primary_id
+        return jsonify(res="ok")
+    else:
+        return jsonify(res="error session set")
+
 
