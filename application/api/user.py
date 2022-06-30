@@ -34,7 +34,7 @@ def get_profile():
     #アイコンの取得
     file_path = user_profiles[0][3]
     if file_path == "./":
-        img_byte = ""
+        path = ""
     else:
         """
         current_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

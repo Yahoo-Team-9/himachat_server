@@ -7,6 +7,7 @@ import redis
 from flask import Flask
 from datetime import timedelta
 from flask_session import Session
+from flask_cors import CORS
 
 REDIS_URL = os.environ.get('REDIS_URL')
 
@@ -40,6 +41,11 @@ app.register_blueprint(user)
 app.register_blueprint(custom)
 app.register_blueprint(tag)
 
+CORS(
+    app,
+    supports_credentials=True
+)
+
 
 socketio = SocketIO(app,logger=True, engineio_logger=True, cors_allowed_origins='*')
 
@@ -48,7 +54,7 @@ socketio = SocketIO(app,logger=True, engineio_logger=True, cors_allowed_origins=
 @app.route("/")
 def index():
     # TODO: 仮セッション
-    session['user'] = '5'
+    session['user'] = '1'
     return render_template('sample.html', users=get_users())
 
 
