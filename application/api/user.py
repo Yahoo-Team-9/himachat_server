@@ -122,6 +122,7 @@ def set_not_hima():
 def get_server_hash():
     rstr = randomstring(64)
     hash_256 = sha256_text(rstr,os.environ['HASH'])
+    hash_256 = sha256_text(hash_256,os.environ['HASH'])
     set_server_hash(hash_256)
 
     return jsonify(res=rstr)
@@ -142,6 +143,7 @@ def login_auth():
     email  = request.json["email"]
     provider = request.json["provider"]
     server_token = request.json["server_token"]
+    server_token = sha256_text(server_token,os.environ['HASH'])
     name = 'user'
     if  'name' in request.json:
         name = request.json["name"]
