@@ -5,6 +5,7 @@ from application.db.custom import get_use_custom_db
 import json
 
 from application.db.notification import set_notification_db
+from application.db.tag import get_tag_list_db
 
 friend = Blueprint('friend', __name__, url_prefix='/api/friend')
 
@@ -27,6 +28,11 @@ def get_hima_friend_list():
     for friend in friend_list:
         koukai_list = get_use_custom_db(friend['friend'])
         if len(koukai_list) == 0 or primary_user_id in koukai_list:
+            tag_list = get_tag_list_db(friend['friend'])
+            friend["tag_list"] = [tag["tag_name"] for tag in tag_list]
+
+            friend_list = get_friend_list_db(friend['friend'])
+            friend["friend_list"] = [f["friend"] for f in friend_list]
             koukai_friend_list.append(friend)
             
     if koukai_friend_list:

@@ -33,13 +33,13 @@ def get_friend_list_db(user_id: str, only_hima=False) ->list :
     conn = get_connection()
     cur = conn.cursor(MySQLdb.cursors.DictCursor)
     if only_hima:
-        sql = '''select friends.friend_id, friends.friend, users.bio, users.user_id, users.login_at, users.user_image_pass 
+        sql = '''select friends.friend_id, friends.friend, users.bio, users.user_id, users.user_name, users.login_at, users.user_image_pass
         from friends inner join users 
         on users.primary_user_id = friends.friend 
         where friends.primary_user_id = %s and approval = 1 and hima = 1'''
         cur.execute(sql,(user_id,))
     else:
-        sql = '''select friends.friend_id, friends.friend, users.bio, users.user_id, users.login_at, users.user_image_pass 
+        sql = '''select friends.friend_id, friends.friend, users.bio, users.user_id, users.user_name, users.login_at, users.user_image_pass
         from friends inner join users 
         on users.primary_user_id = friends.friend 
         where friends.primary_user_id = %s and approval = 1'''
