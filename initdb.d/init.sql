@@ -178,6 +178,15 @@ INSERT INTO friends(primary_user_id, friend, approval) VALUES(3, 1, 1);
 INSERT INTO friends(primary_user_id, friend, approval) VALUES(1, 4, 1);
 INSERT INTO friends(primary_user_id, friend, approval) VALUES(4, 1, 1);
 
+INSERT INTO tags(tag_name) VALUES("新宿");
+INSERT INTO tags(tag_name) VALUES("渋谷");
+INSERT INTO tags(tag_name) VALUES("ランチ");
+INSERT INTO tags(tag_name) VALUES("ディナー");
+
+INSERT INTO user_tags(primary_user_id, tag_id) VALUES(2, 1);
+INSERT INTO user_tags(primary_user_id, tag_id) VALUES(2, 3);
+INSERT INTO user_tags(primary_user_id, tag_id) VALUES(3, 3);
+
 
 -- INSERT INTO users(mail,name) VALUES("exemple@exemple2.com","user2");
 -- INSERT INTO users(mail,name) VALUES("exemple@exemple3.com","user3");
