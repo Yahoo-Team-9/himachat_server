@@ -147,14 +147,15 @@ def login_auth():
         name = request.json["name"]
 
     if check_server_hash(server_token):
-        primary_user_id = get_social_login_db(email, name,provider)
+        get_res =  get_social_login_db(email, name,provider)
+        primary_user_id = get_res[0]
         if primary_user_id == -1:
             return jsonify(res="error")
         else:
             secret = randomstring(64)
             set_session_token(secret, primary_user_id)
 
-            return jsonify(session_token=secret, primary_user_id=primary_user_id)
+            return jsonify(session_token=secret, primary_user_id=primary_user_id,new_user=get_res[1])
     return jsonify(res="invalid server token")
 
 @user.route("/set_session", methods=["POST"])

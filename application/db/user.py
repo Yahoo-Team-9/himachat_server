@@ -83,10 +83,10 @@ def get_social_login_db(email,provider,name):
     cur.close()
     conn.close()
     if  primary_userid is None:
-        return set_social_login_users(email,provider,name)
+        return [set_social_login_users(email,provider,name),True]
 
 
-    return primary_userid[0]
+    return [primary_userid[0],False]
 
 def set_social_login_users(email,provider,name):
     conn = get_connection()
