@@ -147,7 +147,7 @@ def login_auth():
         name = request.json["name"]
 
     if check_server_hash(server_token):
-        get_res =  get_social_login_db(email, name,provider)
+        get_res =  get_social_login_db(email, provider,name)
         primary_user_id = get_res[0]
         if primary_user_id == -1:
             return jsonify(res="error")
