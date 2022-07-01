@@ -92,7 +92,7 @@ def set_social_login_users(email,provider,name):
     conn = get_connection()
     cur = conn.cursor()
     userid = randomstring(15)
-    sql = 'insert into users (user_id , user_name, bio) values(%s, %s, %s)'
+    sql = 'insert into users (user_id , user_name, bio, user_image_pass) values(%s, %s, %s, "")'
     cur.execute(sql,(userid, name, ""))
     conn.commit()
     sql = 'select primary_user_id from users where user_id = %s'
