@@ -9,10 +9,10 @@ import cv2
 import requests
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, session, flash, current_app, url_for
 from application.db.user import get_profile_db, edit_profile_db, upload_file_db, create_user_db, set_hima_status_db, \
-    set_server_hash, get_social_login_db, check_server_hash, set_session_token, get_session_token
+    set_server_hash, get_social_login_db, check_server_hash, set_session_token, get_session_token, search_user_id_db
 from werkzeug.utils import secure_filename
 from pathlib import Path
-
+from flask_cors import cross_origin
 from application.util.random_string import randomstring
 from application.util.sha256 import sha256_text
 
@@ -25,6 +25,7 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 
 # プロフィール表示(該当ユーザの全カラム取得)
 @user.route("/get_profile", methods=["POST"])
+@cross_origin(supports_credentials=True)
 def get_profile():
     """
     primary_user_idのユーザー情報を取得するAPI
@@ -52,6 +53,25 @@ def get_profile():
         
     return jsonify({"user_profiles":user_profiles,"icon_path":path})
     
+# id検索
+@user.route("/search_user_id", methods=["POST"])
+def search_user_id():
+    """
+    primary_user_idのユーザー情報を取得するAPI
+    :param: json でprimary_user_idを引き渡してください
+    :return: json
+    """
+    # user_id = 1
+    user_id = request.json["user_id"]
+    user_profiles = search_user_id_db(user_id)
+    
+    #アイコンの取得
+    file_path = user_profiles[0][3]
+    if file_path == "./":
+        path = ""
+    else:
+        path = os.path.join('../static/img/user_icon', file_path)
+    return jsonify({"user_profiles":user_profiles,"icon_path":path})
 
 # プロフィール編集（画像以外）
 @user.route("/edit_profile", methods=["POST"])

@@ -13,6 +13,16 @@ def get_profile_db(primary_user_id):
     conn.close()
     return user_profiles
 
+def search_user_id_db(user_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = 'select * from users where user_id = %s'
+    cur.execute(sql, (user_id, ))
+    user_profiles = cur.fetchall()
+    cur.close()
+    conn.close()
+    return user_profiles
+
 def edit_profile_db(primary_user_id, edited_profile):
     conn = get_connection()
     cur = conn.cursor()
